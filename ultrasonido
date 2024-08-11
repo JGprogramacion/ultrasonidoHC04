@@ -1,0 +1,24 @@
+//Sensor ultrasonido hc04 - variable necesarias para lectura de la señal
+int TRIG = 6;			                                          //Asignar variable para Trigger en pin 6
+int ECO = 5;			                                          //Asignar variable para Echo en pin 5
+int DURACION;                                               //Variable para almacenar la duración de la señal enviada y recibida del sensor de ultrasonido.
+int DISTANCIA;                                              //Variable para almacenar operación matematica que convierte el la DURACIÓN en distancia (cm).
+
+void setup()
+{
+  Serial.begin(9600);  		                                  //Inicializacion de comunicacion serial a 9600 bps para visualizar la distancia obtenida por el sensor (Se visualiza la variable DISTANCIA)
+  pinMode(TRIG, OUTPUT); 	                                  //Asignar Trigger como salida.
+  pinMode(ECO, INPUT);		                                  //Asignar Echo como entrada.
+
+}
+
+void loop()
+{
+  digitalWrite(TRIG, HIGH); 	                              //Generación del pulso a enviar                
+  delay(1);	                                		            //Tiempo para envio de señal por medio del trigger.
+  digitalWrite(TRIG, LOW);		 
+  DURACION = pulseIn(ECO, HIGH);	                          //Con funcion pulseIn se espera un pulso alto en Echo.  					                                    
+  DISTANCIA = DURACION / 58.2;		                          //Distancia medida en centimetros
+  Serial.println(DISTANCIA);		                            //Envio de valor de distancia por monitor serial
+  delay(50);				                                        //Tiempo de ejecución de lectura de datos.
+}
